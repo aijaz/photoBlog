@@ -66,7 +66,8 @@ if ($specifiedDate) {
     ($year, $mon, $mday, $hour, $min) = $specifiedDate =~ /(....)(..)(..)(..)(..)/;
 }
 
-my $dir = sprintf("source/_posts/%d/%02d", $year, $mon);
+# This is the location of your octopress blog.
+my $dir = sprintf("/Users/aijaz/octopress/source/_posts/%d/%02d", $year, $mon);
 print "Directory: $dir\n";
 
 if (! -e $dir) {
@@ -132,8 +133,8 @@ if (@tags) {
 
 
 # Create the YAML text
-
-open (F, ">$fileName.temp") || die "Cannot open $fileName for writing";
+print "Writing to $fileName.temp\n";
+open (F, ">$fileName.temp") || die "Cannot open $fileName.temp for writing";
 print F join("\n",
              "---",
              "layout: photo",
@@ -205,9 +206,10 @@ if (open (ORIG, "$fileName")) {
 
 close F;
 
+print "Moving $fileName.temp to $fileName\n";
 my $success = move("$fileName.temp", $fileName);
 if (! $success) {
-    die "Couldn't move temp file \n  $fileName.tmp \n  to actual file\n  $fileName\n\n  Actual file may be corrupted. Recover data from temp file now.";
+    die "Couldn't move temp file \n  $fileName.temp \n  to actual file\n  $fileName\n\n  Actual file may be corrupted. Recover data from temp file now.";
 }
 
 
